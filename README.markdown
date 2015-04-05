@@ -7,8 +7,7 @@ http://github.com/comma-csv/comma
 ##COMPATIBILITY
 The mainline of this project builds gems to the 3.x version series, and is compatible and tested with :
 
-* Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0, 2.1
-* REE 1.8.7
+* Ruby 1.9.3, 2.0.0, 2.1
 * RBX 1.8 mode, 1.9 mode
 * Rails 3.x, 4.x (all versions, with ActiveRecord, DataMapper and Mongoid support)
 
