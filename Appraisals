@@ -1,6 +1,5 @@
-['3.0.20', '3.1.12', '3.2.20', '4.0.13', '4.1.10', '4.2.1'].each do |version_number|
+['3.2.20', '4.0.13', '4.1.10', '4.2.1'].each do |version_number|
   clean_number = version_number.gsub(/[<>~=]*/, '')
-  next if RUBY_VERSION < '1.9.3' && version_number >= '4.0.0'
 
   appraise "rails#{ clean_number }" do
     gem "rails", version_number
@@ -13,10 +12,8 @@
   end
 end
 
-if RUBY_VERSION >= '1.9.3'
-  appraise 'mongoid3.1.6' do
-    gem 'mongoid', '3.1.6'
-  end
+appraise 'mongoid3.1.6' do
+  gem 'mongoid', '3.1.6'
 end
 
 appraise 'data_mapper1.2.0' do

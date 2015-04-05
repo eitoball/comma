@@ -8,16 +8,12 @@ rvm:
   - '2.1.0'
   - 'rbx-2.1.1'
 gemfile:
-  - gemfiles/active3.0.20.gemfile
-  - gemfiles/active3.1.12.gemfile
   - gemfiles/active3.2.20.gemfile
   - gemfiles/active4.0.13.gemfile
   - gemfiles/active4.1.10.gemfile
   - gemfiles/active4.2.1.gemfile
   - gemfiles/data_mapper1.2.0.gemfile
   - gemfiles/mongoid3.1.6.gemfile
-  - gemfiles/rails3.0.20.gemfile
-  - gemfiles/rails3.1.12.gemfile
   - gemfiles/rails3.2.20.gemfile
   - gemfiles/rails4.0.13.gemfile
   - gemfiles/rails4.1.10.gemfile
