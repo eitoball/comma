@@ -2,8 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "coveralls", :require=>false
+gem "coveralls", :require => false
 gem "activesupport", "3.0.20"
 gem "activerecord", "3.0.20"
 
-gemspec :path=>"../"
+gemspec :path => "../"

@@ -2,8 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "coveralls", :require=>false
+gem "coveralls", :require => false
 gem "data_mapper", "1.2.0"
 gem "dm-sqlite-adapter", "1.2.0"
 
-gemspec :path=>"../"
+gemspec :path => "../"
