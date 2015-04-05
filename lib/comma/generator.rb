@@ -16,9 +16,9 @@ module Comma
 
     def run(iterator_method)
       if @filename
-        CSV_HANDLER.open(@filename, 'w', @options){ |csv| append_csv(csv, iterator_method) } and return true
+        CSV.open(@filename, 'w', @options){ |csv| append_csv(csv, iterator_method) } and return true
       else
-        CSV_HANDLER.generate(@options){ |csv| append_csv(csv, iterator_method) }
+        CSV.generate(@options){ |csv| append_csv(csv, iterator_method) }
       end
     end
 
