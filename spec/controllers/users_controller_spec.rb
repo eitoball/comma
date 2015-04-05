@@ -2,15 +2,15 @@ require 'spec_helper'
 
 if defined?(Rails)
 
-  describe UsersController do
+  RSpec.describe UsersController, type: :controller do
 
     describe "rails setup" do
 
       it 'should capture the CSV renderer provided by Rails' do
-        mock_users = [mock_model(User), mock_model(User)]
-        User.stub!(:all).and_return(mock_users)
+        mock_users = [object_double(User.new), object_double(User.new)]
+        allow(User).to receive(:all).and_return(mock_users)
 
-        mock_users.should_receive(:to_comma).once
+        expect(mock_users).to receive(:to_comma).once
 
         get :index, :format => :csv
       end
@@ -26,17 +26,17 @@ if defined?(Rails)
       it 'should not affect html requested' do
         get :index
 
-        response.status.should        == 200
-        response.content_type.should  == 'text/html'
-        response.body.should          == 'Users!'
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('text/html')
+        expect(response.body).to eq('Users!')
       end
 
       it "should return a csv when requested" do
         get :index, :format => :csv
 
-        response.status.should            == 200
-        response.content_type.should      == 'text/csv'
-        response.header["Content-Disposition"].should include('filename="data.csv"')
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('text/csv')
+        expect(response.header["Content-Disposition"]).to include('filename="data.csv"')
 
         expected_content =<<-CSV.gsub(/^\s+/,'')
         First name,Last name,Name
@@ -44,7 +44,7 @@ if defined?(Rails)
         Wilma,Flintstone,Wilma Flintstone
         CSV
 
-        response.body.should              == expected_content
+        expect(response.body).to eq(expected_content)
       end
 
       describe 'with comma options' do
@@ -61,7 +61,7 @@ if defined?(Rails)
           Wilma,Flintstone
           CSV
 
-          response.body.should              == expected_content
+        expect(response.body).to eq(expected_content)
         end
 
       end
@@ -71,36 +71,36 @@ if defined?(Rails)
         it 'should allow a filename to be set' do
           get :with_custom_options, :format => :csv, :custom_options => { :filename => 'my_custom_name' }
 
-          response.status.should            == 200
-          response.content_type.should      == 'text/csv'
-          response.header["Content-Disposition"].should include('filename="my_custom_name.csv"')
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/csv')
+          expect(response.header["Content-Disposition"]).to include('filename="my_custom_name.csv"')
         end
 
         it "should allow a custom filename with spaces" do
           require 'shellwords'
           get :with_custom_options, :format => :csv, :custom_options => { :filename => 'filename with a lot of spaces' }
 
-          response.status.should            == 200
-          response.content_type.should      == 'text/csv'
-          response.header["Content-Disposition"].should include('filename="filename with a lot of spaces.csv"')
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/csv')
+          expect(response.header["Content-Disposition"]).to include('filename="filename with a lot of spaces.csv"')
 
           filename_string = response.header["Content-Disposition"].split('=').last
           # shellsplit honors quoted strings
-          filename_string.shellsplit.length.should == 1
+          expect(filename_string.shellsplit.length).to eq(1)
         end
 
         it 'should allow a file extension to be set' do
           get :with_custom_options, :format => :csv, :custom_options => { :extension => :txt }
 
-          response.status.should            == 200
-          response.content_type.should      == 'text/csv'
-          response.header["Content-Disposition"].should include('filename="data.txt"')
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/csv')
+          expect(response.header["Content-Disposition"]).to include('filename="data.txt"')
         end
 
         it 'should allow mime type to be set' do
           get :with_custom_options, :format => :csv, :custom_options => { :mime_type => Mime::TEXT }
-          response.status.should            == 200
-          response.content_type.should      == 'text/plain'
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/plain')
         end
 
         describe 'headers' do
@@ -108,8 +108,8 @@ if defined?(Rails)
           it 'should allow toggling on' do
             get :with_custom_options, :format => :csv, :custom_options => { :write_headers => 'true' }
 
-            response.status.should            == 200
-            response.content_type.should      == 'text/csv'
+            expect(response.status).to eq(200)
+            expect(response.content_type).to eq('text/csv')
 
             expected_content =<<-CSV.gsub(/^\s+/,'')
             First name,Last name,Name
@@ -117,21 +117,21 @@ if defined?(Rails)
             Wilma,Flintstone,Wilma Flintstone
             CSV
 
-            response.body.should              == expected_content
+            expect(response.body).to eq(expected_content)
           end
 
           it 'should allow toggling off' do
             get :with_custom_options, :format => :csv, :custom_options => {:write_headers => false}
 
-            response.status.should            == 200
-            response.content_type.should      == 'text/csv'
+            expect(response.status).to eq(200)
+            expect(response.content_type).to eq('text/csv')
 
             expected_content =<<-CSV.gsub(/^\s+/,'')
             Fred,Flintstone,Fred Flintstone
             Wilma,Flintstone,Wilma Flintstone
             CSV
 
-            response.body.should              == expected_content
+            expect(response.body).to eq(expected_content)
           end
 
         end
@@ -139,8 +139,8 @@ if defined?(Rails)
         it 'should allow forcing of quotes' do
           get :with_custom_options, :format => :csv, :custom_options => { :force_quotes => true }
 
-          response.status.should            == 200
-          response.content_type.should      == 'text/csv'
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/csv')
 
           expected_content =<<-CSV.gsub(/^\s+/,'')
           "First name","Last name","Name"
@@ -148,21 +148,21 @@ if defined?(Rails)
           "Wilma","Flintstone","Wilma Flintstone"
           CSV
 
-          response.body.should              == expected_content
+          expect(response.body).to eq(expected_content)
         end
 
         it 'should allow combinations of options' do
           get :with_custom_options, :format => :csv, :custom_options => { :write_headers => false, :force_quotes => true, :col_sep => '||', :row_sep => "ENDOFLINE\n" }
 
-          response.status.should            == 200
-          response.content_type.should      == 'text/csv'
+          expect(response.status).to eq(200)
+          expect(response.content_type).to eq('text/csv')
 
           expected_content =<<-CSV.gsub(/^\s+/,'')
           "Fred"||"Flintstone"||"Fred Flintstone"ENDOFLINE
           "Wilma"||"Flintstone"||"Wilma Flintstone"ENDOFLINE
           CSV
 
-          response.body.should              == expected_content
+          expect(response.body).to eq(expected_content)
         end
 
       end

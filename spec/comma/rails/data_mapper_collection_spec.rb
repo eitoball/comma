@@ -3,7 +3,7 @@ require 'spec_helper'
 
 if defined? DataMapper
 
-  describe Comma, 'generating CSV from an DataMapper object' do
+  RSpec.describe Comma, 'generating CSV from an DataMapper object' do
 
     class Person
       include DataMapper::Resource
@@ -38,7 +38,7 @@ if defined? DataMapper
       end
 
       it 'should extend scope to add a #to_comma method which will return CSV content for objects within the scope' do
-        Person.teenagers.to_comma.should == "Name,Age\nJunior,18\n"
+        expect(Person.teenagers.to_comma).to eq("Name,Age\nJunior,18\n")
       end
 
       it 'should find in batches' do

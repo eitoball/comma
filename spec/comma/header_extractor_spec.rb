@@ -8,7 +8,7 @@ require 'spec_helper'
 #   isbn :number_10 => 'ISBN-10', :number_13 => 'ISBN-13'
 # end
 
-describe Comma::HeaderExtractor do
+RSpec.describe Comma::HeaderExtractor do
 
   before do
     @isbn = Isbn.new('123123123', '321321321')
@@ -20,14 +20,14 @@ describe Comma::HeaderExtractor do
   describe 'when no parameters are provided' do
 
     it 'should use the method name as the header name, humanized' do
-      @headers.should include('Description')
+      expect(@headers).to include('Description')
     end
   end
 
   describe 'when given a string description as a parameter' do
 
     it 'should use the string value, unmodified' do
-      @headers.should include('Title')
+      expect(@headers).to include('Title')
     end
   end
 
@@ -36,14 +36,14 @@ describe Comma::HeaderExtractor do
     describe 'with a string value' do
 
       it 'should use the string value, unmodified' do
-        @headers.should include('ISBN-10')
+        expect(@headers).to include('ISBN-10')
       end
     end
 
     describe 'with a non-string value' do
 
       it 'should use the non string value converted to a string, humanized' do
-        @headers.should include('Issuer')
+        expect(@headers).to include('Issuer')
       end
     end
 
@@ -51,7 +51,7 @@ describe Comma::HeaderExtractor do
 
 end
 
-describe Comma::HeaderExtractor, 'with static column method' do
+RSpec.describe Comma::HeaderExtractor, 'with static column method' do
   before do
     @headers = Class.new(Struct.new(:id, :name)) do
       comma do
@@ -63,6 +63,6 @@ describe Comma::HeaderExtractor, 'with static column method' do
   end
 
   it 'should extract headers' do
-    @headers.should eq(['', 'STATIC', 'STATIC'])
+    expect(@headers).to eq(['', 'STATIC', 'STATIC'])
   end
 end
